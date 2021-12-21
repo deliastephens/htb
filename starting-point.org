@@ -1,0 +1,42 @@
+#+title: Hack the Box: Starting Point
+#+author: delias
+#+date: 2021-12-20
+
+* Meow
+
+* Fawn
+  Fawn introduced us to the 
+
+* Dancing
+  Dancing talks about the /Server Message Block/ (SMB), one of the
+  protocols for transfering a file between two hosts on the same
+  network.
+
+** SMB  
+  SMB runs at the Application or Presentation layers of the OSI
+  model. This means that it must rly on lower level protocols for
+  transport, so it's likely we also see both the protocols (SMB and
+  NetBIOS over TCP/IP) open.
+
+  Using SMB, an application (or user) can read, create, and update files on a remote server and communicate with any program set up to receive an SMB client request. This means that SMB should require some authentication mechanism (username/password combo). When set up incorrectly, however, network administrators can sometimes make mistakes and allow logins with *guest accounts* or *anonymous log-ons*.
+
+  We use ~smbclient~ to enumerate shared content on a remote system. (on a Mac, this is ~smbutil~, or you can install ~smbclient~ with ~brew install samba~).
+
+  In order to poke around a server, we run the comment ~smbclient -L {HOST_IP}~. Then, to access a particular folder on the server ~smbclient \\\\{HOST_IP}\\{FOLDER_NAME}~. Keep trying these until we find something that is configured incorrectly! (i.e., does not require a username or password).
+
+* Explosion
+  Explosion talks about misconfigured /Remote Desktop Protocol/ (RDP), which is used to connect to other hosts to perform actions or offer support. This operates on ports ~3389 TCP~ and ~3389 UDP~, which  only differ based on how the info is relayed by the protocol to the end-user.
+
+** Command-Line Remote Access Tools
+   We've been using command line tools to access remote hosts for a while now; ~telnet~ is just one (deprecated) example. Telnet is deprecated because it does not encrypt the data that's been sent through it. This menans that anyone with a network TAP (Traffic Acess Point) can intercept the packets being sent through a Telnet connection and read the contents. Telnet runs on Port 23 TCP, but it's been replaced by ~SSH~, which runs on port 22 TCP.
+
+*** SSH
+    SSH (Secure Shell Protocol) adds authentication and encryption to the communication model. It uses a public key to verify the remote host's identity (the client saves this public key in its list of "known hosts"). Once the connection's been established, there are symmetric encryption and hashing algorithms that make sure the data being sent over the tunnel is good and secure.
+
+** GUI Remote Access Tools
+   These are newer and allow for full-out Remote Desktop connections (we can break out of the terminal connection only)! TeamViewer and Windows' Remote Desktop Connection are the most common GUI-based RATs.
+   There are also slightly less involved versions liek ~xfreerdp~, which connects to the target to get a remote desktop projection on our screen.
+
+
+* Preignition
+  
